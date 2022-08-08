@@ -1,0 +1,14 @@
+<launch> 
+
+   <!-- start node -->
+   <arg name="nr" default="2"/> 
+
+   <node name="turtle$(arg nr)_broadcaster" pkg="practica_acciona" type="turtle_broadcaster.py" respawn="false" output="screen" >
+      <param name="turtle" type="string" value="turtle$(arg nr)" /> 
+    </node>
+
+    <node name="turtle$(arg nr)_controller" pkg="practica_acciona" type="turtle_controller.py" >
+      <param name="nr" type="int" value="$(arg nr)" /> 
+    </node>
+
+</launch>
