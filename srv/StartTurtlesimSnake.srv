@@ -1,6 +1,6 @@
 float32 x
 float32 y
 float32 theta
-string control
+bool camera_control
 ---
 string response

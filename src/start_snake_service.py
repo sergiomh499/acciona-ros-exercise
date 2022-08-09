@@ -54,13 +54,10 @@ if __name__ == '__main__':
             launch.launch(node)
             
             # type of control selection
-            control = rospy.get_param('/control')
-            if control == "camera":
+            camera_control = rospy.get_param('/camera_control')
+            if camera_control:
                 # launch camera control
-                node = roslaunch.core.Node('practica_acciona', 'camera_control.py')
-            elif control == "web":
-                # launch web control
-                node = roslaunch.core.Node('practica_acciona', 'web_control.py')
+                node = roslaunch.core.Node('practica_acciona', 'camera_control.py')             
             else: # default
                 # launch turtlesim teleop key
                 node = roslaunch.core.Node('turtlesim', 'turtle_teleop_key', 
