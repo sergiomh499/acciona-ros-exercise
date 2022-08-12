@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
 
             while not rospy.is_shutdown():
-                if time.time() - start_time > random.uniform(5, 8):
+                if time.time() - start_time > random.uniform(15, 20):
                     # update variables
                     turtle_number += 1
                     turtle_name = 'turtle' + str(turtle_number)

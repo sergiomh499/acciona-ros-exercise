@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Importing Libraries
 import rospy
 from geometry_msgs.msg import Twist
 import cv2
 import mediapipe as mp
-from math import hypot, atan2
+from math import hypot, atan2 
 import numpy as np
 
 
@@ -16,18 +16,22 @@ if __name__ == '__main__':
         # model_complexity=1,
         min_detection_confidence=0.75,
         min_tracking_confidence=0.75,
-        max_num_hands=2)
+        max_num_hands=1)
     
     Draw = mp.solutions.drawing_utils
 
     # Initializing ROS
+    # init turtle controller node
+    rospy.init_node('camera_controller')
+    rate = rospy.Rate(10.0)
+    # init vel publisher
     vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=1) 
     cmd = Twist()
     
     # Start capturing video from webcam
     cap = cv2.VideoCapture(0)
     
-    while True:
+    while not rospy.is_shutdown():
         # Read video frame by frame
         result, frame = cap.read()
 
@@ -87,8 +91,11 @@ if __name__ == '__main__':
                 # range 0 - 100), evaluated at length.
                 vel_level = np.interp(L, [15, 220], [0, 100])
 
-                vel_lineal = 1/100 * vel_level
-                vel_angular = 1/10 * A
+                vel_lineal = 1/80 * vel_level
+                if abs(1/A) > 0.35:
+                    vel_angular = - 3 * 1/A
+                else:
+                    vel_angular = 0
                     
                 print("Lineal vel: {} ; Angular vel: {}".format(vel_lineal, vel_angular) )
 
@@ -101,6 +108,8 @@ if __name__ == '__main__':
             cv2.imshow('Image', frame)
             if cv2.waitKey(1) & 0xff == ord('q'):
                 break
-
+            
         else:
             print("Not frame received.")
+    
+        rate.sleep()
