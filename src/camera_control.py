@@ -83,22 +83,24 @@ if __name__ == '__main__':
                 L = hypot(x_2-x_1, y_2-y_1)
                 A = atan2(x_2-x_1, y_2-y_1)
 
-                
-        
                 # 1-D linear interpolant to a function
                 # with given discrete data points
                 # (Hand range 15 - 220, Brightness
                 # range 0 - 100), evaluated at length.
                 vel_level = np.interp(L, [15, 220], [0, 100])
 
+                # calculate velocity
                 vel_lineal = 1/80 * vel_level
                 if abs(1/A) > 0.35:
                     vel_angular = - 3 * 1/A
                 else:
                     vel_angular = 0
-                    
-                print("Lineal vel: {} ; Angular vel: {}".format(vel_lineal, vel_angular) )
 
+                # limitation of angular velocity
+                if abs(vel_angular) > 3.0:
+                    vel_angular = vel_angular/abs(vel_angular) * 3.0
+
+                # publish velocity
                 cmd.linear.x = vel_lineal
                 cmd.angular.z = vel_angular
                 vel_pub.publish(cmd)
