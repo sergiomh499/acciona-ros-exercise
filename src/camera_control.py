@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 # Importing Libraries
 import rospy
 from geometry_msgs.msg import Twist
@@ -28,21 +27,21 @@ if __name__ == '__main__':
     vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=1) 
     cmd = Twist()
     
-    # Start capturing video from webcam
+    # start capturing video from webcam
     cap = cv2.VideoCapture(0)
     
     while not rospy.is_shutdown():
-        # Read video frame by frame
+        # read video frame by frame
         result, frame = cap.read()
 
         if result:
-            # Flip image
+            # flip image
             frame = cv2.flip(frame, 1)
         
-            # Convert BGR image to RGB image
+            # convert BGR image to RGB image
             frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
-            # Process the RGB image
+            # process the RGB image
             Process = hands.process(frameRGB)
         
             landmarkList = []
@@ -63,7 +62,7 @@ if __name__ == '__main__':
                     Draw.draw_landmarks(frame, handlm,
                                         mpHands.HAND_CONNECTIONS)
         
-            # If landmarks list is not empty
+            # if landmarks list is not empty
             if landmarkList != []:
                 # store x,y coordinates of (tip of) thumb
                 x_1, y_1 = landmarkList[4][1], landmarkList[4][2]
@@ -78,20 +77,16 @@ if __name__ == '__main__':
                 # draw line from tip of thumb to tip of index finger
                 cv2.line(frame, (x_1, y_1), (x_2, y_2), (0, 255, 0), 3)
         
-                # calculate square root of the sum of
-                # squares of the specified arguments.
+                # calculate square root of the sum of squares and atan2 of the specified arguments
                 L = hypot(x_2-x_1, y_2-y_1)
                 A = atan2(x_2-x_1, y_2-y_1)
 
-                # 1-D linear interpolant to a function
-                # with given discrete data points
-                # (Hand range 15 - 220, Brightness
-                # range 0 - 100), evaluated at length.
+                # 1-D linear interpolation
                 vel_level = np.interp(L, [15, 220], [0, 100])
 
                 # calculate velocity
                 vel_lineal = 1/80 * vel_level
-                if abs(1/A) > 0.35:
+                if abs(1/A) > 0.3:
                     vel_angular = - 3 * 1/A
                 else:
                     vel_angular = 0
@@ -105,8 +100,7 @@ if __name__ == '__main__':
                 cmd.angular.z = vel_angular
                 vel_pub.publish(cmd)
         
-            # Display Video and when 'q' is entered, destroy
-            # the window
+            # display Video and when 'q' is entered, destroy the window
             cv2.imshow('Image', frame)
             if cv2.waitKey(1) & 0xff == ord('q'):
                 break
