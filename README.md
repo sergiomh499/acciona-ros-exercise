@@ -83,6 +83,10 @@ camera_control: true"
 
 ``x``, ``y`` and ``theta`` indicates the initial position of the first turtle and ``camera_control`` is used to change the control between keyboard and web or control with webcam.
 
+### Turtle camera control
+
+To control the turtle with the camera, you only need a webcam and the thumb and index fingers of one of your hands. The distance between the end of your fingers set the linear velocity of the turtle, and the rotation between them, set the angular velocity.
+
 ### Turtle web control
 
 If you want to control the turtle via web with a joystick, you need to execute also in console, to launch the websocket:
