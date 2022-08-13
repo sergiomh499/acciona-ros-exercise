@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # Initializing ROS
     # init turtle controller node
     rospy.init_node('camera_controller')
-    rate = rospy.Rate(10.0)
+    rate = rospy.Rate(20.0)
     # init vel publisher
     vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=1) 
     cmd = Twist()

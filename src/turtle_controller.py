@@ -70,7 +70,7 @@ if __name__ == '__main__':
     # initializate variables
     turtle_number = rospy.get_param('~nr')
     turtle = Turtle(turtle_number)
-    rate = rospy.Rate(10.0)
+    rate = rospy.Rate(20.0)
     # initizalizate tf listener
     listener = tf.TransformListener() 
 
