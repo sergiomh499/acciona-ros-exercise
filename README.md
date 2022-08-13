@@ -1,5 +1,7 @@
 # Acciona ROS exercise
 
+![execution_program_screenshot](https://user-images.githubusercontent.com/20265855/184474173-1a58804f-3380-40bc-bfaa-7f8c673d6793.png)
+
 ## Tested on
 - Ubuntu 18.04
 - ROS Melodic
